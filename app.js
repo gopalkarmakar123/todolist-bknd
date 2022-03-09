@@ -102,4 +102,4 @@ const serverCallback = async (req,res) => {
 
 const server = http.createServer(serverCallback);
 
-server.listen(port,()=>{console.log("Server is running on http://localhost:"+port);});
+server.listen(port,()=>{console.log("Server is running on"+process.env.HOST+port);});
