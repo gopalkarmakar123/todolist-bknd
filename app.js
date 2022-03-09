@@ -10,8 +10,8 @@ const  getTodos = async (client)=>{
     const result = {error_code: 0, message: ""};
     const queryCursor = await client.db("todoList").collection("todos").find();
     // console.log(queryResult);
-    await client.close();
     return queryResult = await queryCursor.toArray();
+    await client.close();
     
 }
 
