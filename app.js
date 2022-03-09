@@ -22,7 +22,7 @@ const saveTodo = async (client,data) =>{
     if(!data._id)
         queryResult = await client.db("todoList").collection("todos").insertOne(data);
     else 
-        queryResult = await client.db("todoList").collection("todos").update( {_id:ObjectId(data._id)}, data);    
+        queryResult = await client.db("todoList").collection("todos").updateOne( {_id:ObjectId(data._id)}, data);    
     // console.log(queryResult);
     await client.close();
     return queryResult;
