@@ -1,5 +1,5 @@
 const http = require('http');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 const qs = require('querystring');
 const port = process.env.PORT || 8080;
 const connectionString = "mongodb+srv://gopal-mongo:01qac2QOwwtSodR8@cluster0.lv9yd.mongodb.net/admin?authSource=admin&replicaSet=atlas-stnoyb-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true";
@@ -22,7 +22,7 @@ const saveTodo = async (client,data) =>{
     if(!data._id)
         queryResult = await client.db("todoList").collection("todos").insertOne(data);
     else 
-        queryResult = await client.db("todoList").collection("todos").update( {_id:post._id}, data);    
+        queryResult = await client.db("todoList").collection("todos").update( {_id:ObjectId(post._id)}, data);    
     // console.log(queryResult);
     await client.close();
     return queryResult;
