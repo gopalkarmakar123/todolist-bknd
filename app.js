@@ -1,6 +1,5 @@
 const http = require('http');
 const { MongoClient } = require('mongodb');
-const { deflate } = require('zlib');
 const qs = require('querystring');
 const port = process.env.PORT || 8080;
 const connectionString = "mongodb+srv://gopal-mongo:01qac2QOwwtSodR8@cluster0.lv9yd.mongodb.net/admin?authSource=admin&replicaSet=atlas-stnoyb-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true";
@@ -11,8 +10,8 @@ const  getTodos = async (client)=>{
     const result = {error_code: 0, message: ""};
     const queryCursor = await client.db("todoList").collection("todos").find();
     // console.log(queryResult);
-    return queryResult = await queryCursor.toArray();
     await client.close();
+    return queryResult = await queryCursor.toArray();
     
 }
 
