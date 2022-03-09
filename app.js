@@ -10,8 +10,9 @@ const  getTodos = async (client)=>{
     const result = {error_code: 0, message: ""};
     const queryCursor = await client.db("todoList").collection("todos").find();
     // console.log(queryResult);
-    return queryResult = await queryCursor.toArray();
+    const queryResult = await queryCursor.toArray();
     await client.close();
+    return queryResult;
     
 }
 
@@ -22,7 +23,7 @@ const saveTodo = async (client,data) =>{
     if(!data._id)
         queryResult = await client.db("todoList").collection("todos").insertOne(data);
     else 
-        queryResult = await client.db("todoList").collection("todos").updateOne( {_id:ObjectId(data._id)}, data);    
+        queryResult = await client.db("todoList").collection("todos").updateOne( {_id:data._id}, data);    
     // console.log(queryResult);
     await client.close();
     return queryResult;
