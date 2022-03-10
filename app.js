@@ -94,10 +94,10 @@ const serverCallback = async (req,res) => {
     }else{
         res.statusCode = 200;
     }
-    response.setHeader('Access-Control-Allow-Origin', '*');
-    response.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
-    response.setHeader('Access-Control-Max-Age', 2592000);
-    response.setHeader('Content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
+    res.setHeader('Access-Control-Max-Age', 2592000);
+    res.setHeader('Content-Type', 'application/json');
     res.write(JSON.stringify(resp));
     res.end();
 };
