@@ -42,13 +42,7 @@ const saveTodo = async (client,data) =>{
 
 const serverCallback = async (req,res) => {
     let resp  = {error_code: 0, message: ""};
-    const headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'OPTIONS, POST, GET',
-        'Access-Control-Max-Age': 2592000, // 30 days
-        'Content-Type':'application/json',
-        /** add other headers as per requirement */
-      };
+    
     
     if(req.url == "/"){
         resp = {error_code: 1, message : "Server is running. Please specify endpoint."}
@@ -100,7 +94,10 @@ const serverCallback = async (req,res) => {
     }else{
         res.statusCode = 200;
     }
-    res.writeHead(headers);    
+    response.setHeader('Access-Control-Allow-Origin', '*');
+    response.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
+    response.setHeader('Access-Control-Max-Age', 2592000);
+    response.setHeader('Content-Type', 'application/json');
     res.write(JSON.stringify(resp));
     res.end();
 };
