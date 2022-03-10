@@ -1,7 +1,7 @@
 const http = require('http');
 const { MongoClient, ObjectId } = require('mongodb');
 const qs = require('querystring');
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8000;
 const connectionString = "mongodb+srv://gopal-mongo:01qac2QOwwtSodR8@cluster0.lv9yd.mongodb.net/admin?authSource=admin&replicaSet=atlas-stnoyb-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true";
 
 
@@ -42,7 +42,14 @@ const saveTodo = async (client,data) =>{
 
 const serverCallback = async (req,res) => {
     let resp  = {error_code: 0, message: ""};
-
+    const headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS, POST, GET',
+        'Access-Control-Max-Age': 2592000, // 30 days
+        'Content-Type':'application/json',
+        /** add other headers as per requirement */
+      };
+    
     if(req.url == "/"){
         resp = {error_code: 1, message : "Server is running. Please specify endpoint."}
     }else{
@@ -52,20 +59,18 @@ const serverCallback = async (req,res) => {
             case "POST":
                 switch(req.url){
                     case "/todo/save":
-                        var body = '';
+                        let body = '';
 
                         req.on('data', function (data) {
                             body += data;
-
-                            // Too much POST data, kill the connection!
-                            // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
                             if (body.length > 1e6)
                                 req.connection.destroy();
                         });
 
                         req.on('end', function () {
                             var post = qs.parse(body);
-                            saveTodo(client,post);
+                            saveTodo(client,post).catch(console.error());
+                            resp = {error_code: 0, message : "todo successfully saved.", data:post};
                         });
                         break;
                     default:
@@ -95,11 +100,11 @@ const serverCallback = async (req,res) => {
     }else{
         res.statusCode = 200;
     }
-    res.setHeader("Content-Type", "application/json");
+    res.writeHead(headers);    
     res.write(JSON.stringify(resp));
     res.end();
 };
 
 const server = http.createServer(serverCallback);
 
-server.listen(port,()=>{console.log("Server is running on"+process.env.HOST+port);});
+server.listen(port,()=>{console.log("Server is running on "+port);});
