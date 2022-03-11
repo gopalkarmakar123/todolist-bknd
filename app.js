@@ -18,11 +18,12 @@ const  getTodos = async (client)=>{
 
 const saveTodo = async (client,data) =>{
     await client.connect();
-    const result = {error_code: 0 , message:""} ;
+    const result = {error_code: 0, message:""} ;
     let queryResult;
+    console.log(data);
     if(!data._id)
         queryResult = await client.db("todoList").collection("todos").insertOne(data);
-    else 
+    else
         queryResult = await client.db("todoList").collection("todos").updateOne( {_id:data._id}, data);    
     // console.log(queryResult);
     await client.close();
