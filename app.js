@@ -22,7 +22,7 @@ const saveTodo = async (client,data) =>{
     let queryResult;
     console.log(data);
     if(!data._id)
-        queryResult = await client.db("todoList").collection("todos").insertOne({title:data.title,displayOrder:data.displayOrder,selected:data,selected});
+        queryResult = await client.db("todoList").collection("todos").insertOne({title:data.title,displayOrder:data.displayOrder,selected:data.selected});
     else
         queryResult = await client.db("todoList").collection("todos").updateOne( {_id:data._id}, data);    
     // console.log(queryResult);
@@ -47,6 +47,7 @@ const serverCallback = async (req,res) => {
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, POST, GET');
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
     res.setHeader('Access-Control-Max-Age', 2592000);
     
     if(req.url == "/"){
