@@ -73,7 +73,7 @@ const serverCallback = async (req,res) => {
                 }
                 break;
             case "GET": 
-                res.setHeader('Content-Type', 'application/json');
+                
                 switch(req.url){
                     case "/todoList":
                         let todos = await getTodos(client);
@@ -95,6 +95,7 @@ const serverCallback = async (req,res) => {
     }else{
         res.statusCode = 200;
     }
+    res.setHeader('Content-Type', 'application/json');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, POST, GET');
     res.setHeader('Access-Control-Max-Age', 2592000);
