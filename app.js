@@ -67,15 +67,16 @@ const serverCallback = async (req,res) => {
                                 req.connection.destroy();
                         });
 
-                        req.on('end', function () {
+                        req.on('end', async function () {
                             console.log(body);
                             var post = JSON.parse(body);
-                            console.log("post" , post);
-                            let saveResult = await saveTodo(client,post).catch(console.error());
-                            resp = {error_code: 0, message : "todo successfully saved.", data:post};
-                            
+                            await saveTodo(client,post).catch(console.error()).then(
+                                data => { resp = {error_code: 0, message : "todo successfully saved.", data:post};}
+                            );    
                             
                         });
+                        
+                            
                         break;
                     default:
                         resp = {error_code: 1 , message: "Undefined endpoint."}
