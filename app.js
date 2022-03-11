@@ -71,9 +71,9 @@ const serverCallback = async (req,res) => {
                             console.log(body);
                             var post = JSON.parse(body);
                             console.log("post" , post);
-                            await saveTodo(client,post).catch(console.error()).then(result =>{
-                                resp = {error_code: 0, message : "todo successfully saved.", data:post};
-                            });
+                            await saveTodo(client,post).catch(console.error());
+                            resp = {error_code: 0, message : "todo successfully saved.", data:post};
+                            
                             
                         });
                         break;
