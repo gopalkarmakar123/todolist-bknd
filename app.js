@@ -68,6 +68,7 @@ const serverCallback = async (req,res) => {
                         });
 
                         req.on('end', function () {
+                            console.log(body);
                             var post = qs.parse(body);
                             saveTodo(client,post).catch(console.error());
                             resp = {error_code: 0, message : "todo successfully saved.", data:post};
