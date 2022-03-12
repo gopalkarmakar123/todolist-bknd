@@ -25,7 +25,7 @@ const saveTodo = async (client,data) =>{
         queryResult = await client.db("todoList").collection("todos").insertOne({title:data.title,displayOrder:data.displayOrder,selected:data.selected});
     else
         queryResult = await client.db("todoList").collection("todos").updateOne( {_id:data._id}, data);    
-    // console.log(queryResult);
+    console.log(queryResult);
     await client.close();
     return queryResult;
 }
@@ -70,9 +70,11 @@ const serverCallback = async (req,res) => {
                         req.on('end', async function () {
                             console.log(body);
                             var post = JSON.parse(body);
-                            await saveTodo(client,post).catch(console.error()).then(
-                                data => { resp = {error_code: 0, message : "todo successfully saved.", data:post};}
-                            );    
+                            const saveRes =  await saveTodo(client,post); 
+                            if(saveRes)
+                                resp = {error_code: 0, message: "successfully saved"};
+                            else
+                                resp = {error_code: 1, message: "an eer"};
                             
                         });
                         
