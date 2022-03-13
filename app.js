@@ -67,7 +67,7 @@ const serverCallback = async (req,res) => {
                                 req.connection.destroy();
                         });
 
-                        req.on('end', async function () {
+                        await req.on('end', async function () {
                             console.log(body);
                             var post = JSON.parse(body);
                             const saveRes =  await saveTodo(client,post); 
