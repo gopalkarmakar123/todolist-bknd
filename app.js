@@ -71,6 +71,7 @@ const serverCallback = async (req,res) => {
                             console.log(body);
                             let post = JSON.parse(body);
                             let saveRes =  await saveTodo(client,post); 
+                            console.log(saveRes);
                             if(saveRes)
                                 resp = {error_code: 0, message: "successfully saved"};
                             else
