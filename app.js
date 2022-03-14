@@ -8,7 +8,7 @@ const connectionString = "mongodb+srv://gopal-mongo:01qac2QOwwtSodR8@cluster0.lv
 const  getTodos = async (client)=>{
     await client.connect();
     const result = {error_code: 0, message: ""};
-    const queryCursor = await client.db("todoList").collection("todos").find();
+    const queryCursor = await client.db("todoList").collection("todos").find().sort({displayOrder:1});
     // console.log(queryResult);
     const queryResult = await queryCursor.toArray();
     await client.close();
@@ -67,10 +67,10 @@ const serverCallback = async (req,res) => {
                                 req.connection.destroy();
                         });
 
-                        await req.on('end', async function () {
+                        req.on('end', async function () {
                             console.log(body);
-                            var post = JSON.parse(body);
-                            const saveRes =  await saveTodo(client,post); 
+                            let post = JSON.parse(body);
+                            let saveRes =  await saveTodo(client,post); 
                             if(saveRes)
                                 resp = {error_code: 0, message: "successfully saved"};
                             else
