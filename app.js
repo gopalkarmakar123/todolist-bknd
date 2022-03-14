@@ -66,15 +66,17 @@ const serverCallback = async (req,res) => {
                         });
 
                         req.on('end', async function () {
-                            console.log(body);
+                            console.log("body:",body);
                             let post = JSON.parse(body);
                             let saveRes =  await saveTodo(client,post); 
-                            console.log(saveRes);
-                            if(saveRes)
+                            console.log("Save Rev:",saveRes);
+                            if(saveRes){
+                                console.log("SAVE SUCCSS");
                                 resp = {error_code: 0, message: "successfully saved"};
-                            else
+                            }else{
+                                console.log("SAVE fail");
                                 resp = {error_code: 1, message: "there is an unexpected error occured."};
-                            
+                            }
                         });
                         
                             
