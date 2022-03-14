@@ -7,7 +7,6 @@ const connectionString = "mongodb+srv://gopal-mongo:01qac2QOwwtSodR8@cluster0.lv
 
 const  getTodos = async (client)=>{
     await client.connect();
-    const result = {error_code: 0, message: ""};
     const queryCursor = await client.db("todoList").collection("todos").find().sort({displayOrder:1});
     // console.log(queryResult);
     const queryResult = await queryCursor.toArray();
@@ -18,11 +17,10 @@ const  getTodos = async (client)=>{
 
 const saveTodo = async (client,data) =>{
     await client.connect();
-    const result = {error_code: 0, message:""};
     let queryResult;
     console.log(data);
     if(!data._id)
-        queryResult = await client.db("todoList").collection("todos").insertOne({title:data.title,displayOrder:data.displayOrder,selected:data.selected});
+        queryResult = await client.db("todoList").collectio("todos").insertOne({title:data.title,displayOrder:data.displayOrder,selected:data.selected});
     else
         queryResult = await client.db("todoList").collection("todos").updateOne( {_id:data._id}, data);    
     console.log(queryResult);
@@ -75,7 +73,7 @@ const serverCallback = async (req,res) => {
                             if(saveRes)
                                 resp = {error_code: 0, message: "successfully saved"};
                             else
-                                resp = {error_code: 1, message: "an eer"};
+                                resp = {error_code: 1, message: "there is an unexpected error occured."};
                             
                         });
                         
